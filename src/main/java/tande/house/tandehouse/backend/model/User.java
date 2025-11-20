@@ -1,6 +1,9 @@
 package tande.house.tandehouse.backend.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,6 +19,6 @@ public class User {
 
     private String name;
     private String email;
-    private String password;
-    private String role;
+    private String password; // OJO: más adelante encripta esto
+    private String role;     // Ej: "USER", "ADMIN"
 }
