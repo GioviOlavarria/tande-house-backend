@@ -23,6 +23,7 @@ public class AuthController {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email ya registrado");
         }
+
         User u = new User();
         u.setNombre(request.getNombre());
         u.setEmail(request.getEmail());
@@ -38,6 +39,7 @@ public class AuthController {
         u = userRepository.save(u);
         return UserDTO.from(u);
     }
+
     @PostMapping("/login")
     public UserDTO login(@RequestBody LoginRequest request) {
         User u = userRepository.findByEmail(request.getEmail())

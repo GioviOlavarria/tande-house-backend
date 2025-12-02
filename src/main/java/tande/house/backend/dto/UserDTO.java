@@ -10,8 +10,14 @@ public class UserDTO {
     private Long id;
     private String nombre;
     private String email;
+    private Boolean admin;
 
     public static UserDTO from(User u) {
-        return new UserDTO(u.getId(), u.getNombre(), u.getEmail());
+        return new UserDTO(
+                u.getId(),
+                u.getNombre(),
+                u.getEmail(),
+                u.getAdmin() != null && u.getAdmin()
+        );
     }
 }
