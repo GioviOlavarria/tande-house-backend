@@ -27,10 +27,17 @@ public class AuthController {
         u.setNombre(request.getNombre());
         u.setEmail(request.getEmail());
         u.setPassword(request.getPassword());
+
+        String adminCodeEnv = System.getenv("ADMIN_CODE");
+        boolean isAdmin = Boolean.TRUE.equals(request.getAdmin())
+                && adminCodeEnv != null
+                && !adminCodeEnv.isBlank()
+                && adminCodeEnv.equals(request.getAdminCode());
+
+        u.setAdmin(isAdmin);
         u = userRepository.save(u);
         return UserDTO.from(u);
     }
-
     @PostMapping("/login")
     public UserDTO login(@RequestBody LoginRequest request) {
         User u = userRepository.findByEmail(request.getEmail())
