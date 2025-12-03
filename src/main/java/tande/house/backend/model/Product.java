@@ -15,12 +15,17 @@ public class Product {
     private String id;
 
     private String nombre;
+
     private Integer precio;
 
     @Column(columnDefinition = "TEXT")
     private String portada;
 
     private String categoria;
+
     private Boolean oferta;
+
     private String sku;
+
+    private Integer stock;
 }
