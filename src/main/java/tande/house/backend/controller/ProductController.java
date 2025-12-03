@@ -40,12 +40,19 @@ public class ProductController {
     public Product update(@PathVariable String id, @RequestBody Product p) {
         Product existing = productRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         existing.setNombre(p.getNombre());
         existing.setPrecio(p.getPrecio());
         existing.setPortada(p.getPortada());
         existing.setCategoria(p.getCategoria());
         existing.setOferta(p.getOferta());
         existing.setSku(p.getSku());
+        Integer nuevoStock = p.getStock();
+        if (nuevoStock == null || nuevoStock < 0) {
+            nuevoStock = 0;
+        }
+        existing.setStock(nuevoStock);
+
         return productRepository.save(existing);
     }
 
