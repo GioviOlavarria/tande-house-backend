@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import tande.house.backend.repository.ProductRepository;
 import tande.house.backend.model.Product;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ProductController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Product create(@RequestBody Product p) {
         if (p.getId() == null || p.getId().isBlank()) {
@@ -36,11 +38,11 @@ public class ProductController {
         return productRepository.save(p);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public Product update(@PathVariable String id, @RequestBody Product p) {
         Product existing = productRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
         existing.setNombre(p.getNombre());
         existing.setPrecio(p.getPrecio());
         existing.setPortada(p.getPortada());
@@ -52,10 +54,10 @@ public class ProductController {
             nuevoStock = 0;
         }
         existing.setStock(nuevoStock);
-
         return productRepository.save(existing);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         if (!productRepository.existsById(id)) {
@@ -63,4 +65,5 @@ public class ProductController {
         }
         productRepository.deleteById(id);
     }
+
 }
